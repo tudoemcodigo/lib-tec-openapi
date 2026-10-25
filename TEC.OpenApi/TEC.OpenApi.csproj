@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>TEC.OpenApi</RootNamespace>
+    <Description>Integração canônica do Tudo em Código com OpenAPI, Scalar e metadados de documentação para ASP.NET Core.</Description>
+    <PackageTags>openapi;scalar;swagger;documentation;aspnetcore;jwt;keycloak;tec</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
+    <PackageReference Include="Scalar.AspNetCore" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="TEC.OpenApi.Tests/TEC.OpenApi.Tests.csproj" />
+  <Project Path="TEC.OpenApi/TEC.OpenApi.csproj" />
+</Solution>
