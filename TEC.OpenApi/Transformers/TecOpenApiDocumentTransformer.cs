@@ -1,4 +1,3 @@
-#if NET9_0_OR_GREATER || NET10_0_OR_GREATER
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.OpenApi;
@@ -64,4 +63,3 @@ public sealed class TecOpenApiDocumentTransformer(TecOpenApiOptions options) : I
         return Task.CompletedTask;
     }
 }
-#endif

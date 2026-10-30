@@ -1,4 +1,3 @@
-#if NET9_0_OR_GREATER || NET10_0_OR_GREATER
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -156,4 +155,3 @@ public class TecOpenApiTransformersTests
         await Assert.That(operation.Responses == null || !operation.Responses.ContainsKey("401")).IsTrue();
     }
 }
-#endif

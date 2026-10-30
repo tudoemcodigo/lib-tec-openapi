@@ -1,4 +1,3 @@
-#if NET9_0_OR_GREATER || NET10_0_OR_GREATER
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -28,7 +27,8 @@ public sealed class TecAuthorizeOperationTransformer(TecOpenApiOptions options) 
         if (requiresAuth)
         {
             operation.Security ??= [];
-            var schemeReference = new OpenApiSecuritySchemeReference(options.JwtBearerSchemeName);
+            // Sem o documento hospedeiro a referência não resolve e o requisito sai vazio ("security": [{}]) no JSON
+            var schemeReference = new OpenApiSecuritySchemeReference(options.JwtBearerSchemeName, context.Document);
 
             operation.Security.Add(new OpenApiSecurityRequirement
             {
@@ -56,4 +56,3 @@ public sealed class TecAuthorizeOperationTransformer(TecOpenApiOptions options) 
         return Task.CompletedTask;
     }
 }
-#endif
