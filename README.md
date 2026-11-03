@@ -28,6 +28,7 @@ Scalar · OpenAPI Nativo (.NET 10 / ASP.NET Core) · JWT Bearer RFC 6750 · Open
 - [🚀 Início rápido](#-início-rápido)
 - [🔒 Proteção da documentação](#-proteção-da-documentação)
 - [⚙️ Configuração avançada](#️-configuração-avançada)
+- [🧩 Diagrama de arquitetura](#-diagrama-de-arquitetura)
 - [⚡ Compatibilidade](#-compatibilidade)
 - [📄 Licença](#-licença)
 
@@ -174,6 +175,66 @@ Opções de `TecOpenApiOptions` (valores padrão do código):
 | `DocumentationAuthorizationPolicy` | `null` | Exige a política nomeada no documento e na interface. Só espaços derruba a subida |
 
 ---
+
+## 🧩 Diagrama de arquitetura
+
+Componentes e ligações do `TEC.OpenApi`, gerados pelo [GitDiagram](https://gitdiagram.com/tudoemcodigo/lib-tec-openapi) a partir da `main` em 02/11/2026. O diagrama é gerado por IA a partir de uma amostra do código: use-o como mapa de leitura, não como contrato.
+
+```mermaid
+flowchart TD
+
+subgraph group_setup["Configuration and registration"]
+  node_options["Documentation options"]
+  node_extensions["Registration and mapping"]
+end
+
+subgraph group_document["OpenAPI document"]
+  node_openapi["ASP.NET Core OpenAPI"]
+  node_doc_transformer["Metadata and schemes"]
+  node_operation_transformer["Operation security"]
+end
+
+subgraph group_endpoints["Documentation endpoints"]
+  node_json_endpoint["OpenAPI JSON endpoint"]
+  node_scalar_endpoint["Scalar UI endpoint"]
+  node_conventions["Convention forwarding"]
+  node_environment["Environment and authorization"]
+  node_logging["Mapping warning<br/>[TecOpenApiLog.cs]"]
+end
+
+node_app(("ASP.NET Core app"))
+node_scalar["Scalar.AspNetCore"]
+
+node_app -->|"configures and maps"| node_extensions
+node_extensions -->|"configures"| node_options
+node_extensions -->|"registers document"| node_openapi
+node_extensions -->|"registers transformer"| node_doc_transformer
+node_extensions -->|"registers transformer"| node_operation_transformer
+node_doc_transformer -->|"reads settings"| node_options
+node_operation_transformer -->|"reads settings"| node_options
+node_extensions -->|"maps document"| node_json_endpoint
+node_extensions -->|"maps interface"| node_scalar_endpoint
+node_extensions -->|"configures UI"| node_scalar
+node_extensions -->|"checks mapping access"| node_environment
+node_environment -->|"logs blocked mapping"| node_logging
+node_extensions -->|"combines endpoint builders"| node_conventions
+node_conventions -->|"forwards conventions"| node_json_endpoint
+node_conventions -->|"forwards conventions"| node_scalar_endpoint
+node_extensions -->|"applies authorization settings"| node_options
+
+
+classDef toneNeutral fill:#f8fafc,stroke:#334155,stroke-width:1.5px,color:#0f172a
+classDef toneBlue fill:#dbeafe,stroke:#2563eb,stroke-width:1.5px,color:#172554
+classDef toneAmber fill:#fef3c7,stroke:#d97706,stroke-width:1.5px,color:#78350f
+classDef toneMint fill:#dcfce7,stroke:#16a34a,stroke-width:1.5px,color:#14532d
+classDef toneRose fill:#ffe4e6,stroke:#e11d48,stroke-width:1.5px,color:#881337
+classDef toneIndigo fill:#e0e7ff,stroke:#4f46e5,stroke-width:1.5px,color:#312e81
+classDef toneTeal fill:#ccfbf1,stroke:#0f766e,stroke-width:1.5px,color:#134e4a
+class node_options,node_extensions toneBlue
+class node_openapi,node_doc_transformer,node_operation_transformer toneAmber
+class node_json_endpoint,node_scalar_endpoint,node_conventions,node_environment,node_logging toneMint
+class node_app,node_scalar toneIndigo
+```
 
 ## ⚡ Compatibilidade
 
